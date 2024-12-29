@@ -3,10 +3,10 @@ export const Admin_NavData = [
 	{
 		title: "Estudiantes",
 		children: [
-			{ title: "Asistencias", href: "", description: "Gestionar conteo de asistencias totales." },
+			{ title: "Asistencias", href: "/students/asistence", description: "Gestionar conteo de asistencias totales." },
 			{ title: "Cargar Asistencias", href: "", description: "Cargar Asitencias diarías" },
 			{ title: "Cargar Notas", href: "", description: "Cargar notas" },
-			{ title: "Lista de Estudiantes", href: "", description: "Lista total de estudiantes." },
+			{ title: "Lista de Estudiantes", href: "/students", description: "Lista total de estudiantes." },
 		],
 	},
 	{
