@@ -9,7 +9,7 @@ interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 export function InputField({ label, className, ...props }: InputFieldProps) {
     return (
 			<div>
-				<Label>{label}</Label>
+				<Label className="text-[#71717A]">{label}</Label>
 				<Input className={`${className} hover:bg-gray-100`} {...props} />
 			</div>
 		);

@@ -14,6 +14,8 @@ import { PopoverComponent } from "../../custom/PopoverComponent/PopoverComponent
 
 import { ListItem } from "../../custom/ListItem/ListItem";
 import { useNavigate } from "react-router-dom";
+import useAuthStore from "@/store/useAuthStore";
+import { ProgramTitle } from "@/components/custom/title/ProgramTitle";
 
 interface NavItem {
 	title: string;
@@ -26,18 +28,14 @@ interface NavBarProps {
 	data: NavItem[];
 }
 export const NavBar = ({ data }: NavBarProps) => {
+	const { logout } = useAuthStore();
 	const navigate = useNavigate();
 	return (
-		<div className="flex p-5 bg-white justify-between">
-			<div className="flex gap-5 px-12">
-				<div className="flex gap-3 items-center">
-					<Avatar>
-						<AvatarFallback>CN</AvatarFallback>
-					</Avatar>
-					<h1 className="font-semibold text-lg">U.E Colegio Aplicación</h1>
-				</div>
-				<NavigationMenu className="pl-12">
-					<NavigationMenuList>
+		<div className="flex flex-col md:flex-row p-5 bg-white justify-between items-center md:items-start">
+			<div className="flex flex-col md:flex-row gap-5 px-4 md:px-12 items-center">
+				<ProgramTitle />
+				<NavigationMenu className="w-full md:w-auto md:pl-12">
+					<NavigationMenuList className="flex flex-col md:flex-row gap-2 md:gap-5">
 						{data.map((item, key) =>
 							!item.children ? (
 								<NavigationMenuItem key={key}>
@@ -75,8 +73,8 @@ export const NavBar = ({ data }: NavBarProps) => {
 					</NavigationMenuList>
 				</NavigationMenu>
 			</div>
-			<NavigationMenu className="px-12">
-				<NavigationMenuList>
+			<NavigationMenu className="w-full md:w-auto px-4 md:px-12 mt-4 md:mt-0">
+				<NavigationMenuList className="flex justify-center md:justify-end">
 					<NavigationMenuItem>
 						<PopoverComponent
 							trigger={
@@ -90,8 +88,8 @@ export const NavBar = ({ data }: NavBarProps) => {
 							className={"w-[180px] mx-5"}
 						>
 							<ul className="p-3">
-								<ListItem title={"Perfil"} href={"/profile"} />
-								<ListItem title="Cerrar Sesión" onClick={() => {}} />
+								<ListItem title={"Perfil"} href={"/profile"} type="button" />
+								<ListItem title="Cerrar Sesión" onClick={() => logout()} type="button" />
 							</ul>
 						</PopoverComponent>
 					</NavigationMenuItem>

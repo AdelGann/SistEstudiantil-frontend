@@ -17,7 +17,7 @@ interface DiaryComponentProps {
 
 export const DiaryComponent: React.FC<DiaryComponentProps> = ({ data }) => {
 	return (
-		<div className="overflow-x-auto rounded-lg">
+		<div className="overflow-x-auto rounded-lg ">
 			<Table className="min-w-full divide-y divide-gray-200">
 				<TableCaption>Listado de Actividades Escolares.</TableCaption>
 				<TableHeader className="bg-gray-50">
