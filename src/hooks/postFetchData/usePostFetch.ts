@@ -8,7 +8,8 @@ import { api } from "@/data/connections";
 export const usePostFetch = (endpoint: string, options?: OptionProps) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<unknown>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [error, setError] = useState<unknown | any>(null);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const { toast } = useToast();
 
@@ -30,7 +31,8 @@ export const usePostFetch = (endpoint: string, options?: OptionProps) => {
     if (error !== null) {
       toast({
         title: "something went wrong",
-        description: `${error}`,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        description: `${error.message as any}`,
         variant: "destructive",
       });
     }
