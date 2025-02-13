@@ -1,5 +1,5 @@
 const deployUrl = "";
-const testUrl = "";
+const testUrl = "http://localhost:3000/api";
 
 const urlModule = [deployUrl, testUrl];
 
