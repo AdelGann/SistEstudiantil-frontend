@@ -29,7 +29,7 @@ interface DataTableProps {
   columns: Column[];
   pageSize?: number;
   caption?: string;
-  onRowButtonClick?: (rowData: any) => void;
+  onRowButtonClick?: (rowData: unknown) => void;
 }
 
 export const Datatable: React.FC<DataTableProps> = ({
