@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 interface AuthState {
   role: RolesType | undefined;
-  setInterface: (role: "ADMIN" | "TEACHER" | "USER" | undefined) => void;
+  setInterface: (role: RolesType | undefined) => void;
   setNull: () => void;
 }
 
