@@ -5,10 +5,10 @@ export interface OptionProps {
 }
 
 export interface UpdateHookProps {
-  endpoint: string;
-  options: OptionProps;
+  options?: OptionProps;
 }
 
-export interface UpdateProps {
+export interface UpdateProps<T> {
   ids: string[];
+  data: T;
 }

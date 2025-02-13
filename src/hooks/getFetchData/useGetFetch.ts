@@ -4,7 +4,7 @@ import { api } from "@/data/connections";
 
 export const useGetFetch = <T>(
   endpoint: string,
-  { params }: { params: Record<string, unknown> },
+  options?: { params: { params: Record<string, string> } },
 ): HookObject<T> => {
   const [data, setData] = useState<T[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -12,7 +12,9 @@ export const useGetFetch = <T>(
   const getFetchData = async (customEndpoint?: string) => {
     try {
       const endpointToFetch = `${customEndpoint ? customEndpoint : endpoint}`;
-      const res = await api.get(endpointToFetch, { params });
+      const res = await api.get(endpointToFetch, {
+        params: options?.params ? options?.params : undefined,
+      });
 
       setData(res.data);
       setIsLoading(false);
