@@ -41,6 +41,37 @@ export const Admin_NavData = [
   },
   {
     title: "Configuración",
-    href: "/Configuration",
+    children: [
+      {
+        title: "Gestionar Materias",
+        href: "",
+        description: "Agregar, editar, eliminar materias",
+      },
+      {
+        title: "Gestionar Grados",
+        href: "",
+        description: "Agregar, editar, eliminar Grados",
+      },
+      {
+        title: "Gestionar Secciones",
+        href: "",
+        description: "Agregar, editar, eliminar secciones",
+      },
+      {
+        title: "Gestionar Perfiles",
+        href: "",
+        description: "Agregar, administrar, eliminar perfiles",
+      },
+      {
+        title: "Gestionar Representantes",
+        href: "/configurations/representative",
+        description: "Agregar, Administrar y eliminar representantes",
+      },
+      {
+        title: "Calendario Academico",
+        href: "",
+        description: "Gestionar calendario academico",
+      },
+    ],
   },
 ];
