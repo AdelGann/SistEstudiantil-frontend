@@ -6,16 +6,28 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useToast } from "@/hooks/use-toast";
 import useAuthStore from "@/store/useAuthStore";
+
+import { usePostFetch } from "@/hooks/postFetchData/usePostFetch";
+
 export const Login = () => {
   const { toast } = useToast();
   const { login } = useAuthStore();
+  const postFetchData = usePostFetch("/v1/auth/login");
+
   const { values, handleSubmit, handleChange } = useFormik({
-    initialValues: { user: "", password: "" },
-    onSubmit: () => {
-      login("dummy__token");
+    initialValues: { email: "", password: "" },
+    onSubmit: async () => {
+      const res = await postFetchData.Post<
+        { email: string; password: string },
+        { accessToken: string }
+      >({
+        data: values,
+      });
+
+      login(res.data.accessToken || "");
     },
     validationSchema: Yup.object({
-      user: Yup.string().required("Usuario Requerido"),
+      email: Yup.string().required("Usuario Requerido"),
       password: Yup.string().required("Contraseña Requerida"),
     }),
     validateOnChange: false,
@@ -24,7 +36,7 @@ export const Login = () => {
       const errors = {};
       try {
         Yup.object({
-          user: Yup.string().required("Usuario Requerido"),
+          email: Yup.string().required("Correo Requerido"),
           password: Yup.string().required("Contraseña Requerida"),
         }).validateSync(values, { abortEarly: false });
       } catch (validationErrors) {
@@ -62,10 +74,10 @@ export const Login = () => {
         </h1>
         <div className="flex flex-col gap-5 pt-6">
           <InputField
-            label="Usuario"
+            label="Correo"
             className="xl:w-[405px] h-[40px] text-[#71717A]"
-            name="user"
-            value={values.user}
+            name="email"
+            value={values.email}
             onChange={handleChange}
           />
           <InputField
