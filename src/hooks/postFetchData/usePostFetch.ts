@@ -1,19 +1,16 @@
 import { useEffect, useState } from "react";
-import axios, { AxiosResponse } from "axios";
-import { url } from "@/data/connections/mainApi";
+import { AxiosResponse, ResponseType } from "axios";
 import { useNavigate } from "react-router-dom";
-import { PostHookProps, PostProps } from "./interfaces/PostFetch.interface";
-import useAuthStore from "@/store/useAuthStore";
+import { OptionProps, PostProps } from "./interfaces/PostFetch.interface";
 import { useToast } from "../use-toast";
+import { api } from "@/data/connections";
 
-export const usePostFetch = ({ endpoint, options }: PostHookProps) => {
-  const { title, description, reloadFetchData } = options;
+export const usePostFetch = (endpoint: string, options?: OptionProps) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<unknown>(null);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const { toast } = useToast();
-  const { token } = useAuthStore();
 
   const setInitialState = () => {
     setIsLoading(false);
@@ -23,12 +20,12 @@ export const usePostFetch = ({ endpoint, options }: PostHookProps) => {
 
   useEffect(() => {
     if (isSuccess) {
-      if (title) {
+      if (options?.title) {
         toast({ title: "Subiendo datos..." });
-        toast({ title, description });
+        toast({ title: options?.title, description: options?.description });
       }
       setInitialState();
-      if (reloadFetchData) reloadFetchData();
+      if (options?.reloadFetchData) options?.reloadFetchData();
     }
     if (error !== null) {
       toast({
@@ -40,44 +37,50 @@ export const usePostFetch = ({ endpoint, options }: PostHookProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, error]);
 
-  const Post = async <T>({
+  const Post = async <T1, T2>({
     data,
     options,
-  }: PostProps<T>): Promise<AxiosResponse<T>> => {
-    const { params, path, query, isBlob, returnResponse } = options;
-    setIsLoading(true);
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    let res: AxiosResponse<T>;
-    if (!isBlob) {
-      res = await axios.post(
-        `${url}${endpoint}${params ? `/${params}` : ""}${query ? `?${query}` : ""}`,
+  }: PostProps<T1>): Promise<AxiosResponse<T2>> => {
+    try {
+      setIsLoading(true);
+
+      const config = {
+        params: options?.params,
+        responseType: options?.isBlob ? "blob" : "json",
+      };
+
+      const res: AxiosResponse<T2> = await api.post(
+        `${endpoint}${options?.query ? `?${options?.query}` : ""}`,
         data,
-        { headers },
+        {
+          params: config.params,
+          responseType: config.responseType as ResponseType,
+        },
       );
-    } else {
-      res = await axios.post(
-        `${url}${endpoint}${params ? `/${params}` : ""}${query ? `?${query}` : ""}`,
-        data,
-        { headers, responseType: "blob" },
-      );
-    }
-    setIsLoading(false);
-    setIsSuccess(true);
-    if (path) {
-      setTimeout(() => {
-        navigate(path);
-      }, 1000);
-    }
-    if (returnResponse) {
+
+      setIsLoading(false);
+      setIsSuccess(true);
+
+      if (options?.path) {
+        setTimeout(() => {
+          navigate(`${options?.path}`);
+        }, 1000);
+      }
+
       return res;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (e: any) {
+      // Tipado correcto para el error
+      setError(e || "An unexpected error occurred");
+      return Promise.reject(e);
+    } finally {
+      setIsLoading(false); // Asegurar que isLoading se establezca en false
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return res.data as any;
   };
+
   return {
     Post,
     isLoading,
+    error, // Exponer el error para que el componente pueda usarlo
   };
 };

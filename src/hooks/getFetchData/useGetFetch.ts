@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { url } from "@/data/connections/mainApi";
 import { HookObject } from "./object/hook.object";
-import useAuthStore from "@/store/useAuthStore";
+import { api } from "@/data/connections";
 
 export const useGetFetch = <T>(
   endpoint: string,
@@ -10,14 +8,11 @@ export const useGetFetch = <T>(
 ): HookObject<T> => {
   const [data, setData] = useState<T[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { token } = useAuthStore();
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
+
   const getFetchData = async (customEndpoint?: string) => {
     try {
-      const endpointToFetch = `${url}${customEndpoint ? customEndpoint : endpoint}`;
-      const res = await axios.get(endpointToFetch, { headers, params });
+      const endpointToFetch = `${customEndpoint ? customEndpoint : endpoint}`;
+      const res = await api.get(endpointToFetch, { params });
 
       setData(res.data);
       setIsLoading(false);

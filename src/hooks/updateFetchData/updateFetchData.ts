@@ -3,17 +3,14 @@ import {
   UpdateHookProps,
   UpdateProps,
 } from "./interfaces/UpdateFetch.interface";
-import useAuthStore from "@/store/useAuthStore";
-import { url } from "@/data/connections/mainApi";
-import axios from "axios";
 import { useToast } from "../use-toast";
+import { api } from "@/data/connections";
 
 export const useUpdateFetch = ({ endpoint, options }: UpdateHookProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<unknown>(null);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
-  const { token } = useAuthStore();
   const { toast } = useToast();
 
   const setInitialState = () => {
@@ -44,13 +41,9 @@ export const useUpdateFetch = ({ endpoint, options }: UpdateHookProps) => {
 
   const Update = async ({ ids }: UpdateProps) => {
     setIsLoading(true);
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
     try {
-      const res = await axios.patch(
-        `${url}${endpoint}${ids && ids.filter(Boolean).join("/")}`,
-        { headers },
+      const res = await api.patch(
+        `${endpoint}${ids && ids.filter(Boolean).join("/")}`,
       );
       setIsLoading(false);
       setIsSuccess(true);

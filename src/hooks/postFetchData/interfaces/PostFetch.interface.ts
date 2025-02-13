@@ -1,4 +1,4 @@
-interface OptionProps {
+export interface OptionProps {
   title?: string;
   description?: string;
   reloadFetchData?: () => void;
@@ -11,12 +11,11 @@ export interface PostHookProps {
 
 interface PostFuncOptionsProps {
   query?: string;
-  params?: string;
+  params?: Record<string, unknown>;
   path?: string;
   isBlob?: boolean;
-  returnResponse?: boolean;
 }
 export interface PostProps<T> {
   data: T;
-  options: PostFuncOptionsProps;
+  options?: PostFuncOptionsProps;
 }
