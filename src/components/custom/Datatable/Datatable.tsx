@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 import { ReactNode, useState } from "react";
->>>>>>> 318badf (fix: dialog state)
 import {
   Table,
   TableBody,
@@ -20,28 +17,12 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-<<<<<<< HEAD
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
 
-=======
->>>>>>> 318badf (fix: dialog state)
 interface Column {
   Header: string;
   Field: string;
 }
-<<<<<<< HEAD
-interface DataTableProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any[];
-  columns: Column[];
-  pageSize?: number;
-  caption?: string;
-  onRowButtonClick?: (rowData: unknown) => void;
-}
 
-export const Datatable: React.FC<DataTableProps> = ({
-=======
 interface DataTableProps<T> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any;
@@ -52,18 +33,12 @@ interface DataTableProps<T> {
 }
 
 export const Datatable = <T,>({
->>>>>>> 318badf (fix: dialog state)
   data,
   columns,
   pageSize = 10,
   caption,
-<<<<<<< HEAD
-  onRowButtonClick,
-}) => {
-=======
   Render,
 }: DataTableProps<T>) => {
->>>>>>> 318badf (fix: dialog state)
   const [currentPage, setCurrentPage] = useState(1);
   const total = data.length;
 
@@ -91,29 +66,7 @@ export const Datatable = <T,>({
                 {column.Header}
               </TableHead>
             ))}
-<<<<<<< HEAD
-            {onRowButtonClick && <TableHead>Actions</TableHead>}
-          </TableRow>
-        </TableHeader>
-        <TableBody className="bg-white divide-y divide-gray-200">
-          {paginatedData.map((row, rowIndex) => (
-            <TableRow key={rowIndex}>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.Field}
-                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 w-[10px]"
-                >
-                  {row[column.Field]}
-                </TableCell>
-              ))}
-              {onRowButtonClick && (
-                <TableCell>
-                  <Button onClick={() => onRowButtonClick(row)}>Action</Button>
-                </TableCell>
-              )}
-            </TableRow>
-          ))}
-=======
+
             {Render && (
               <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Actions
@@ -143,7 +96,6 @@ export const Datatable = <T,>({
               </TableRow>
             ),
           )}
->>>>>>> 318badf (fix: dialog state)
         </TableBody>
       </Table>
       <Pagination>

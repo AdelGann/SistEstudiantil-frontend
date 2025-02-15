@@ -15,23 +15,17 @@ interface DialogProps {
   Children: React.ReactNode;
   open?: boolean;
   onOpenChange?: (state: boolean) => void;
-<<<<<<< HEAD
-=======
+
   onClick?: () => void;
->>>>>>> 318badf (fix: dialog state)
 }
 
 export const DialogComponent = ({ ...rest }: DialogProps) => {
   return (
     <Dialog open={rest.open} onOpenChange={rest.onOpenChange}>
-<<<<<<< HEAD
-      <DialogTrigger className="bg-black text-white rounded-md p-2">
-=======
       <DialogTrigger
         className="bg-black text-white rounded-md p-2"
         onClick={rest.onClick}
       >
->>>>>>> 318badf (fix: dialog state)
         {rest.DialogTrigger}
       </DialogTrigger>
       <DialogContent className={`w-[${rest.width}]`}>
