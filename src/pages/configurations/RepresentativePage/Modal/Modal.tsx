@@ -145,9 +145,13 @@ export const Modal = ({
           }}
         />
         <DialogFooter className="pt-5">
+<<<<<<< HEAD
           <DialogClose>
             <Button type="button">Cerrar</Button>
           </DialogClose>
+=======
+          <DialogClose>Cerrar</DialogClose>
+>>>>>>> 318badf (fix: dialog state)
 
           <Button type="submit">Aceptar</Button>
         </DialogFooter>
