@@ -100,6 +100,7 @@ export const Datatable = <T,>({
       </Table>
       <Pagination>
         <PaginationPrevious
+          className="cursor-pointer"
           onClick={() => handlePageChange(currentPage - 1)}
           isActive={currentPage === 1}
         />
@@ -113,6 +114,7 @@ export const Datatable = <T,>({
           ))}
         </PaginationContent>
         <PaginationNext
+          className="cursor-pointer"
           onClick={() => handlePageChange(currentPage + 1)}
           isActive={currentPage === Math.ceil(total / pageSize)}
         />

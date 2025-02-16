@@ -79,7 +79,7 @@ export const NavBar = ({ data }: NavBarProps) => {
             <PopoverComponent
               trigger={
                 <div className="flex gap-2 items-center">
-                  <p>Adel Gannem</p>
+                  <p>Adel</p>
                   <Avatar>
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>

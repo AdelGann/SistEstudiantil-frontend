@@ -9,6 +9,9 @@ import { useUpdateFetch } from "@/hooks/updateFetchData/updateFetchData";
 import { Datatable } from "@/components/custom/Datatable/Datatable";
 import { DialogComponent } from "@/components/custom/Dialog/Dialog";
 import { DropdownComponent } from "@/components/custom/Dropdown/DropdownComponent";
+import { InputField } from "@/components/custom/InputField/InputField";
+import { SelectField } from "@/components/custom/SelectField/SelectField";
+import { Button } from "@/components/ui/button";
 
 export interface ResponseData {
   ID: string;
@@ -50,7 +53,6 @@ export const Representative = () => {
     }
   }, [modal.modalState]);
 
-  console.log(modal.modalState);
   const items = (rowData: ResponseData) => {
     return [
       {
@@ -66,33 +68,44 @@ export const Representative = () => {
   return (
     <div className="p-5">
       <div className="m-5 flex flex-col gap-4">
-        <h1 className="text-2xl font-semibold">Representantes</h1>
-        <p></p>
+        <h1 className="text-2xl font-semibold">GESTION DE REPRESENTANTES</h1>
+        <p className="text-sm text-gray-500">
+          Agrega, edita y elimina representantes
+        </p>
+        <div className="flex items-center gap-4">
+          <div className="flex gap-4">
+            <SelectField options={[]} placeholder="Filtrar por" />
+            <InputField placeholder="Buscar" />
+            <Button>Buscar</Button>
+          </div>
 
-        <div className="w-[100px]">
-          <DialogComponent
-            open={modal.modalState}
-            onOpenChange={modal.changeModalState}
-            DialogTitle="Agregar Representante"
-            DialogTrigger="Crear"
-            onClick={() => setData(null)}
-            Children={
-              <Modal
-                postFetchData={
-                  postFetchData.Post<CreateRepresentativeProps, ResponseData>
-                }
-                updateFetchData={updateFetchData.Update}
-                InitialData={data}
-                onClose={modal.changeModalState}
-              />
-            }
-          />
+          <div className="w-[80px]">
+            <DialogComponent
+              open={modal.modalState}
+              onOpenChange={modal.changeModalState}
+              DialogTitle="Agregar Representante"
+              DialogTrigger="Crear"
+              onClick={() => setData(null)}
+              Children={
+                <Modal
+                  postFetchData={
+                    postFetchData.Post<CreateRepresentativeProps, ResponseData>
+                  }
+                  updateFetchData={
+                    updateFetchData.Update<
+                      CreateRepresentativeProps,
+                      ResponseData
+                    >
+                  }
+                  InitialData={data}
+                  onClose={modal.changeModalState}
+                />
+              }
+            />
+          </div>
         </div>
         <hr />
       </div>
-
-      <Datatable columns={columns} data={getFetchData?.data || []} />
-
       <Datatable
         columns={columns}
         data={getFetchData?.data || []}
@@ -112,4 +125,5 @@ const columns = [
   { Header: "Correo electronico", Field: "email" },
   { Header: "Número de telefono", Field: "phone" },
   { Header: "Fecha de registro", Field: "createdAt" },
+  { Header: "Estado", Field: "state" },
 ];
