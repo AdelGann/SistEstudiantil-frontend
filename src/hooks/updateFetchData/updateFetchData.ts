@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { AxiosResponse } from "axios";
 import { OptionProps, UpdateProps } from "./interfaces/UpdateFetch.interface";
 import { useToast } from "../use-toast";
 import { api } from "@/data/connections";
@@ -9,7 +10,6 @@ export const useUpdateFetch = (endpoint: string, options?: OptionProps) => {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const { toast } = useToast();
-
   const setInitialState = () => {
     setIsLoading(false);
     setError(null);
@@ -36,18 +36,23 @@ export const useUpdateFetch = (endpoint: string, options?: OptionProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, error]);
 
-  const Update = async <T>({ ids, data }: UpdateProps<T>) => {
+  const Update = async <T1, T2>({
+    ids,
+    data,
+  }: UpdateProps<T1>): Promise<AxiosResponse<T2>> => {
     setIsLoading(true);
     try {
       const res = await api.patch(
         `${endpoint}${ids && ids.filter(Boolean).join("/")}`,
         data,
       );
-      setIsLoading(false);
+
       setIsSuccess(true);
-      return res.data;
+      return res;
     } catch (e) {
       setError(e);
+      return Promise.reject(e);
+    } finally {
       setIsLoading(false);
     }
   };

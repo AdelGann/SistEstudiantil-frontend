@@ -45,12 +45,10 @@ export const usePostFetch = (endpoint: string, options?: OptionProps) => {
   }: PostProps<T1>): Promise<AxiosResponse<T2>> => {
     try {
       setIsLoading(true);
-
       const config = {
         params: options?.params,
         responseType: options?.isBlob ? "blob" : "json",
       };
-
       const res: AxiosResponse<T2> = await api.post(
         `${endpoint}${options?.query ? `?${options?.query}` : ""}`,
         data,
@@ -59,30 +57,25 @@ export const usePostFetch = (endpoint: string, options?: OptionProps) => {
           responseType: config.responseType as ResponseType,
         },
       );
-
       setIsLoading(false);
       setIsSuccess(true);
-
       if (options?.path) {
         setTimeout(() => {
           navigate(`${options?.path}`);
         }, 1000);
       }
-
       return res;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-      // Tipado correcto para el error
+    } catch (e) {
       setError(e || "An unexpected error occurred");
       return Promise.reject(e);
     } finally {
-      setIsLoading(false); // Asegurar que isLoading se establezca en false
+      setIsLoading(false);
     }
   };
 
   return {
     Post,
     isLoading,
-    error, // Exponer el error para que el componente pueda usarlo
+    error,
   };
 };
